@@ -1,0 +1,10 @@
+version: "3.1"
+
+services:
+  db:
+    image: ankane/pgvector
+    environment:
+      POSTGRES_DB: ai_experiments
+      POSTGRES_PASSWORD: password
+    ports:
+      - "55432:5432"
