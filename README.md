@@ -41,9 +41,6 @@ cur.execute("SELECT 1 - (embedding <=> %s) AS cosine_similarity, content FROM jd
 top20 = cur.fetchall()
 
 
-# -- WHERE
-# --         (embedding <=> %s) > 0.5
-
 cur.execute("""
     with matched_chunks as (
         SELECT
