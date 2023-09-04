@@ -1,5 +1,13 @@
 # AI Experiments
 
+## Installation
+
+```bash
+pyenv install 3.10.13
+sudo apt-get install libicu-dev
+python -m pip install -r experiments/requirements.txt
+```
+
 ## Using `pgvector`
 
 Docker makes it easy to run postgres with pgvector. Start the database container by running:
