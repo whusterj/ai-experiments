@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen flex-col text-center font-avenir text-primary antialiased pt-16">
+  <div class="bg-bgDarkBlue min-h-screen flex-col font-avenir text-primary antialiased pt-16">
     <NavBar />
     <router-view />
   </div>

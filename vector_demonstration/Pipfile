@@ -32,6 +32,8 @@ django-anymail = "==8.4"  # https://github.com/anymail/django-anymail
 rollbar = "==0.16.2"
 premailer = "*"
 sentence-transformers = "*"
+langdetect = "*"
+pgvector = "*"
 
 [requires]
 python_version = "3.10"

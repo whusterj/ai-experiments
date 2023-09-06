@@ -74,6 +74,7 @@ class JobDescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobDescription
         fields = (
+            "id",
             "title",
             "company",
             "location",

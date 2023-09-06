@@ -17,8 +17,8 @@ export const jobDescriptionChunkShape = {
 
 export const jobDescriptionSearchResultShape = {
   score: readonly(z.number()),
-  jobDescription: readonly(jobDescriptionShape),
-  chunks: readonly(z.array(jobDescriptionChunkShape)),
+  jobDescription: jobDescriptionShape,
+  chunks: z.array(jobDescriptionChunkShape),
 }
 
 export const queryShape = {

@@ -8,12 +8,12 @@ const search = createCustomServiceCall(
     outputShape: jobDescriptionSearchResultShape,
   },
   async ({ client, input, utils }) => {
-    const res = await client.post('/search/', utils.toApi(input))
+    const res = await client.post('/job-descriptions/search/', utils.toApi(input))
     return utils.fromApi(res.data)
   },
 )
 
-export const userApi = createApi(
+export const jobDescriptionApi = createApi(
   {
     client: axiosInstance,
     baseUri: '/job-descriptions/',

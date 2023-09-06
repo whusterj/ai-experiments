@@ -10,6 +10,7 @@ module.exports = {
         success: '#4faf64',
         warning: '#f4b942',
         error: '#d72638',
+        bgDarkBlue: '#111827',
       },
       fontFamily: {
         avenir: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
