@@ -17,4 +17,9 @@ module.exports = {
       css: {},
     },
   },
+  configureWebpack: {
+    watchOptions: {
+      poll: process.env.VUE_APP_DEV_POLL_FOR_FILE_CHANGES === 'true' || false,
+    },
+  },
 }

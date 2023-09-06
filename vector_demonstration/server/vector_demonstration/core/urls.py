@@ -10,6 +10,7 @@ if settings.DEBUG:
     router = routers.DefaultRouter()
 
 router.register("users", core_views.UserViewSet)
+router.register("job-descriptions", core_views.JobDescriptionViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),

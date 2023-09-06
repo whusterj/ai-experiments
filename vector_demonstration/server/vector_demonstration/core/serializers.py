@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import User
+from .models import JobDescription, JobDescriptionChunk, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -68,3 +68,37 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+
+class JobDescriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobDescription
+        fields = (
+            "title",
+            "company",
+            "location",
+            "description",
+            "skills",
+            "language",
+        )
+
+
+class JobDescriptionChunkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobDescriptionChunk
+        fields = (
+            "job_description_id",
+            "chunk",
+            "token_count",
+            "embedding",
+        )
+
+
+class JobDescriptionQuerySerializer(serializers.Serializer):
+    query = serializers.CharField(required=True)
+
+
+class JobDescriptionSearchResultsSerializer(serializers.Serializer):
+    score = serializers.FloatField(required=True)
+    job_description = JobDescriptionSerializer(required=True)
+    chunks = JobDescriptionChunkSerializer(required=True, many=True)

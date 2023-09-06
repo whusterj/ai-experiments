@@ -15,7 +15,6 @@ from langdetect.lang_detect_exception import LangDetectException
 from pgvector.django import L2Distance, VectorField
 from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer
-
 from vector_demonstration.common.models import AbstractBaseModel
 from vector_demonstration.utils.sites import get_site_url
 
@@ -221,9 +220,9 @@ class JobDescription(AbstractBaseModel):
         for k, v in unique_jds.items():
             score = sum([c.distance for c in v["chunks"]]) / len(v["chunks"])
             job_description = v["job_description"]
-            results.append((score, job_description, v["chunks"]))
+            results.append(JobDescriptionSearchResult(score, job_description, v["chunks"]))
 
-        return sorted(results, key=lambda x: x[0])
+        return sorted(results, key=lambda r: r.score)
 
 
 class JobDescriptionChunk(AbstractBaseModel):
@@ -234,3 +233,13 @@ class JobDescriptionChunk(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.job_description.title} - {self.chunk[:50]}"
+
+
+class JobDescriptionSearchResult:
+    def __init__(self, score, job_description, chunks):
+        self.score = score
+        self.job_description = job_description
+        self.chunks = chunks
+
+    def __str__(self):
+        return f"{self.score}: {self.job_description.title}"

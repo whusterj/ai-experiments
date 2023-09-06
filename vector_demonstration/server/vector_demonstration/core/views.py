@@ -11,18 +11,25 @@ from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from rest_framework import generics, mixins, permissions, status, views, viewsets
 from rest_framework.decorators import (
+    action,
     api_view,
     authentication_classes,
     permission_classes,
 )
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-
 from vector_demonstration.utils.emails import send_html_email
 
-from .models import User
+from .models import JobDescription, User
 from .permissions import CreateOnlyPermissions
-from .serializers import UserLoginSerializer, UserRegistrationSerializer, UserSerializer
+from .serializers import (
+    JobDescriptionQuerySerializer,
+    JobDescriptionSearchResultsSerializer,
+    JobDescriptionSerializer,
+    UserLoginSerializer,
+    UserRegistrationSerializer,
+    UserSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -178,3 +185,29 @@ class PreviewTemplateView(views.APIView):
             model, pk = value.split(":")
             value = apps.get_model(model).objects.get(pk=pk)
         return key, value
+
+
+class JobDescriptionViewSet(
+    viewsets.GenericViewSet,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+):
+    queryset = JobDescription.objects.all()
+    serializer_class = JobDescriptionSerializer
+    permission_classes = ()
+
+    @action(detail=False, methods=["post"])
+    def search(self, request):
+        # Validate Query Input
+        query_serializer = JobDescriptionQuerySerializer(data=request.data)
+        query_serializer.is_valid(raise_exception=True)
+        query = query_serializer.validated_data["query"]
+
+        # Perform search
+        search_results = JobDescription.search(query=query)
+
+        # Serialize results top 50 results
+        results_serialized = JobDescriptionSearchResultsSerializer(search_results[:50], many=True)
+
+        return Response(results_serialized.data)
