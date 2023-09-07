@@ -1,0 +1,1 @@
+ALTER TABLE job_description ADD COLUMN language character varying(255);
