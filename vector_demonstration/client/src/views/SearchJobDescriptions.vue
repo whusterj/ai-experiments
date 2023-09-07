@@ -90,6 +90,7 @@ export default {
 
     const search = () => {
       if (!searchQuery.value) return
+      searchResults.value = null
       loading.value = true
       jobDescriptionApi.csc
         .search({ query: searchQuery.value })
